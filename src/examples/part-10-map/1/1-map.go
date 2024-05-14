@@ -10,4 +10,5 @@ func main() {
 	languages["go"] = 2
 
 	fmt.Println(languages)
+
 }

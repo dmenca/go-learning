@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 func main() {
 	var languages [5]string
@@ -11,4 +14,13 @@ func main() {
 	languages[4] = "Java"
 
 	fmt.Println(languages)
+
+	// json.Marshal方法返回json字符串的字节数组
+	jsonString, err := json.Marshal(languages)
+	if err != nil {
+		fmt.Println("json error", err)
+		return
+	}
+	// 通过string函数将字节数组转换为字符串
+	fmt.Println(string(jsonString))
 }
