@@ -3,9 +3,14 @@ package main
 import "fmt"
 
 type VideoCourse struct {
-	Name string
-	Language string
+	Name        string
+	Language    string
 	TimeMinutes int
+}
+
+type Student struct {
+	Name string
+	Age  int
 }
 
 func main() {
@@ -15,5 +20,8 @@ func main() {
 	course.TimeMinutes = 60
 
 	fmt.Println("Video course:", course)
+
+	student := Student{Name: "张三", Age: 16}
+	fmt.Println("Student:", student)
 
 }
