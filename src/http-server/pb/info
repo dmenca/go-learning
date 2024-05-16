@@ -1,0 +1,1 @@
+protoc --go_out=. --go-grpc_out=. -I. -I"C:\\Users\\caoan\\go\\src" ./db.proto

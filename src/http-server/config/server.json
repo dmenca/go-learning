@@ -1,0 +1,10 @@
+{
+  "Elasticsearch": {
+    "URL": "http://10.111.32.63:10228"
+  },
+  "Redis": {
+    "Host": "http://10.111.32.63",
+    "PORT": 10299,
+    "PASSWORD": ""
+  }
+}

@@ -1,4 +1,5 @@
 package main
+
 // Go 的 _选择器（select）_  让你可以同时等待多个通道操作。
 // 将协程、通道和选择器结合，是 Go 的一个强大特性。
 import (
@@ -23,11 +24,11 @@ func main() {
 	}()
 	// 我们使用 `select` 关键字来同时等待这两个值，
 	// 并打印各自接收到的值。
-	for i := 0; i < 1; i++ {
+	for i := 0; i < 2; i++ {
 		select {
 		case msg1 := <-c1:
 			fmt.Println("received", msg1)
-		case msg2 := <- c2:
+		case msg2 := <-c2:
 			fmt.Println("received", msg2)
 		}
 	}

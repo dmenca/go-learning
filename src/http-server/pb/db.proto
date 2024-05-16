@@ -1,0 +1,30 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+option go_package="dmenca/go-learning/http-server/api/db";
+package dmenca.go_learning.http_server;
+
+
+
+message DBGetRequest{
+   string db_id = 1;
+}
+
+message DBGetResponse{
+  DBInfo db_info = 1;
+}
+
+message DBInfo{
+  string name = 1;
+
+  string db_id = 2;
+}
+
+service DBApi{
+  rpc DBGet(DBGetRequest) returns(DBGetResponse){
+    option (google.api.http) = {
+      get: "/v1/databases/{db_id}"
+    };
+  }
+}
