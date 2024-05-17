@@ -3,9 +3,11 @@ package service
 import (
 	"context"
 	"http-server/api/db"
+	"http-server/dao"
 )
 
 type DbService struct {
+	DbQueryDao dao.DBQuery
 }
 
 func (s *DbService) DBGet(ctx context.Context, in *db.DBGetRequest) (*db.DBGetResponse, error) {
@@ -15,7 +17,11 @@ func (s *DbService) DBGet(ctx context.Context, in *db.DBGetRequest) (*db.DBGetRe
 	response := db.DBGetResponse{}
 	dbInfo := db.DBInfo{}
 	dbInfo.DbId = in.GetDbId()
-	dbInfo.Name = in.GetDbId() + "-Name"
+	db, err := s.DbQueryDao.GetDBById(in.GetDbId())
+	if err != nil {
+		return nil, err
+	}
+	dbInfo.Name = db.Name
 	response.DbInfo = &dbInfo
 	return &response, nil
 }

@@ -6,5 +6,13 @@
     "Host": "http://10.111.32.63",
     "PORT": 10299,
     "PASSWORD": ""
+  },
+  "MySQL": {
+    "Host": "10.111.32.63",
+    "PORT": 30200,
+    "PASSWORD": "locJwxSBoRCS7rc",
+    "User": "root",
+    "Driver": "mysql",
+    "DBName": "test"
   }
 }
