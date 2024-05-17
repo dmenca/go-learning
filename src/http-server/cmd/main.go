@@ -16,6 +16,7 @@ import (
 	"http-server/api/db"
 	config "http-server/config"
 	"http-server/service"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -60,9 +61,21 @@ func main() {
 		grpc_prometheus.UnaryServerInterceptor,
 		payloadUnaryServerInterceptor(),
 	))
-
+	grpcEndpoint := ":10608"
 	httpEndpoint := ":10607"
 	grpcServer = grpc.NewServer(opt)
+
+	// 添加grpc, net listen 监听grpcEndpoint的连接
+	l, err := net.Listen("tcp", grpcEndpoint)
+	if err != nil {
+		log.Fatal("failed to listen :", err)
+	}
+	log.Info("gRPC listen :", grpcEndpoint)
+	go func() {
+		if err := grpcServer.Serve(l); err != nil {
+			log.Warn("gRPC server closed: ", err)
+		}
+	}()
 	dbService := service.DbService{}
 	db.RegisterDBApiServer(grpcServer, &dbService)
 	//mux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{OrigName: true, EmitDefaults: true}))
@@ -73,7 +86,7 @@ func main() {
 		runtime.MIMEWildcard, &runtime.JSONPb{OrigName: true, EmitDefaults: true}),
 		runtime.WithMarshalerOption("application/smalljson", &runtime.JSONPb{OrigName: true, EmitDefaults: false}),
 	)
-	if err := db.RegisterDBApiHandlerFromEndpoint(ctx, gmux, ":8081", dialOptions); err != nil {
+	if err := db.RegisterDBApiHandlerFromEndpoint(ctx, gmux, ":10608", dialOptions); err != nil {
 		log.Fatal("Failed to register service handler for grpc: ", err)
 	}
 
