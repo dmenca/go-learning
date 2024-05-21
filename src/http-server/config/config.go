@@ -3,6 +3,7 @@ package config
 import (
 	"database/sql"
 	"encoding/json"
+	redisCli "github.com/go-redis/redis"
 	"github.com/olivere/elastic"
 	log "github.com/sirupsen/logrus"
 	"http-server/config/elasticsearch"
@@ -12,8 +13,9 @@ import (
 )
 
 type DatabaseClient struct {
-	Db *sql.DB
-	es *elastic.Client
+	Db    *sql.DB
+	Es    *elastic.Client
+	Redis *redisCli.Client
 }
 
 type ServerConfig struct {
@@ -33,9 +35,11 @@ func NewDatabaseClient(config *ServerConfig) (*DatabaseClient, error) {
 		log.Error("fail to create es client", err)
 		return nil, err
 	}
+	redisClient := config.Redis.GetClient()
 	return &DatabaseClient{
-		es: esClient,
-		Db: mysqlClient,
+		Es:    esClient,
+		Db:    mysqlClient,
+		Redis: redisClient,
 	}, err
 }
 

@@ -3,14 +3,13 @@
     "URL": "http://10.111.32.63:10228"
   },
   "Redis": {
-    "Host": "http://10.111.32.63",
-    "PORT": 10299,
-    "PASSWORD": ""
+    "Addr": "http://10.111.32.63:10299",
+    "Password": "Uc4y0nSHUVAncL3"
   },
   "MySQL": {
     "Host": "10.111.32.63",
-    "PORT": 30200,
-    "PASSWORD": "locJwxSBoRCS7rc",
+    "Port": 30200,
+    "Password": "locJwxSBoRCS7rc",
     "User": "root",
     "Driver": "mysql",
     "DBName": "test"

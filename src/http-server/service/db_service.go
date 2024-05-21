@@ -17,11 +17,11 @@ func (s *DbService) DBGet(ctx context.Context, in *db.DBGetRequest) (*db.DBGetRe
 	response := db.DBGetResponse{}
 	dbInfo := db.DBInfo{}
 	dbInfo.DbId = in.GetDbId()
-	db, err := s.DbQueryDao.GetDBById(in.GetDbId())
+	dbResult, err := s.DbQueryDao.GetDBById(in.GetDbId())
 	if err != nil {
 		return nil, err
 	}
-	dbInfo.Name = db.Name
+	dbInfo.Name = dbResult.Name
 	response.DbInfo = &dbInfo
 	return &response, nil
 }

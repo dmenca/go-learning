@@ -69,6 +69,7 @@ func main() {
 		log.Error("config init error.", err)
 		return
 	}
+
 	dbQueryDao := dao.DBQuery{Db: databaseClient.Db}
 	dbService := service.DbService{DbQueryDao: dbQueryDao}
 	// gRPC 服务器会处理来自客户端的 gRPC 请求，并调用 DbService 中相应的方法来处理这些请求
