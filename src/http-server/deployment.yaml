@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-go-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-go-app
+  template:
+    metadata:
+      labels:
+        app: my-go-app
+    spec:
+      containers:
+        - name: my-go-app
+          image: http-server:1.0
+          command: ["./main"]
+          ports:
+            - containerPort: 10607
+          volumeMounts:
+            - name: config-volume
+              mountPath: config
+              subPath: server.json
+      volumes:
+        - name: config-volume
+          configMap:
+            name: http-server
