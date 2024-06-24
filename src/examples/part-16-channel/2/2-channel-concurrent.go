@@ -24,7 +24,9 @@ func main() {
 
 	// 向 resps 通道发送结果
 	for i := 0; i < 10; i++ {
-		resps <- i
+		go func() {
+			resps <- i
+		}()
 		time.Sleep(100 * time.Millisecond)
 	}
 
