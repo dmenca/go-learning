@@ -54,7 +54,6 @@ func main() {
 
 	// 用于产生周期性事件。创建一个 Ticker 会返回一个通道，这个通道会在指定的时间间隔上发送当前时间的值。
 	// time.NewTicker(time.Second) 创建了一个新的 Ticker，它会每秒钟触发一次。
-	ticker := time.NewTicker(time.Second)
 
 	// 订阅频道
 	subscribeChannel := func(channel string) {
@@ -70,6 +69,7 @@ func main() {
 	}
 
 	subscribeChannel("news")
+
 	go func() {
 		defer close(done)
 		for {
@@ -83,25 +83,20 @@ func main() {
 		}
 	}()
 
-	for {
-		select {
-		case <-done:
-			return
-		case t := <-ticker.C:
-			// 执行此分支时，会从 ticker.C 通道中接收当前时间值
-			sendMessage(conn, "news", t.String())
-		case <-interrupt:
-			err := conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
-			if err != nil {
-				log.Println("write close:", err)
-				return
-			}
-			select {
-			case <-done:
-			case <-time.After(time.Second):
-			}
+	select {
+	case <-done:
+		return
+	case <-interrupt:
+		err := conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
+		if err != nil {
+			log.Println("write close:", err)
 			return
 		}
+		select {
+		case <-done:
+		case <-time.After(time.Second):
+		}
+		return
 	}
 
 }

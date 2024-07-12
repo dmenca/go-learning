@@ -91,7 +91,9 @@ func handleMessages(client *Client) {
 		err := client.conn.ReadJSON(&message)
 		if err != nil {
 			log.Println("read message error.", err)
+			break
 		}
+		log.Println("success received:", message)
 		switch message.Channel {
 		case "subscribe":
 			client.channels[message.Data["channel"].(string)] = true
@@ -111,11 +113,6 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer func() {
-		if err := ws.Close(); err != nil {
-			log.Panicln("close ws error", err)
-		}
-	}()
 	client := &Client{conn: ws, channels: make(map[string]bool)}
 	log.Println("handle connection:", client)
 	// 注册客户端
