@@ -96,6 +96,7 @@ func handleMessages(client *Client) {
 		log.Println("success received:", message)
 		switch message.Channel {
 		case "subscribe":
+			//message.Data["channel"].(string) 是 Go 语言中的类型断言,用于将 interface{} 类型的值转换为具体的 string 类型。
 			client.channels[message.Data["channel"].(string)] = true
 		case "unsubscribe":
 			delete(client.channels, message.Data["channel"].(string))
