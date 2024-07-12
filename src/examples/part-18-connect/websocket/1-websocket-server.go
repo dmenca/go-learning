@@ -3,6 +3,9 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/gorilla/websocket"
 )
@@ -46,13 +49,24 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// 注册/ws路由
+	interrupt := make(chan os.Signal, 1)
+	// 使用 signal.Notify 来监听操作系统信号 这样可以将操作系统的中断信号（如 Ctrl+C）通知到 interrupt 通道。
+	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+
 	http.HandleFunc("/ws", handleConnections)
+	go func() {
+		err := http.ListenAndServe(":10500", nil)
+		if err != nil {
+			log.Fatal("Error starting HTTP server:", err)
+		} else {
+			log.Println("Http server listening on :8080")
+		}
+	}()
 
-	err := http.ListenAndServe(":10500", nil)
-	if err != nil {
-		log.Println("Error starting HTTP server:", err)
-	} else {
-		log.Println("Http server listening on :8080")
+	log.Println("server go on")
+
+	select {
+	case <-interrupt:
+		log.Println("server receive interrupt siginal")
 	}
-
 }
