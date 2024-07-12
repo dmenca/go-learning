@@ -5,8 +5,8 @@ go 1.22
 require (
 	github.com/Shopify/sarama v1.29.2-0.20210909081634-bd4c97221f00
 	github.com/kyokomi/emoji v2.2.4+incompatible
+	github.com/gorilla/websocket v1.5.0
 )
-
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eapache/go-resiliency v1.2.0 // indirect
