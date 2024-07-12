@@ -25,17 +25,20 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			log.Panicln("close ws error", err)
 		}
 	}()
+	// 每个连接独立处理
 	for {
 		// 读取消息
 		// map[string]interface{} 用于存储 JSON 对象，其中键是字符串，值可以是任何类型。
 		var msg map[string]interface{}
 		err := ws.ReadJSON(&msg)
 		if err != nil {
-			log.Fatal("read json error", err)
+			log.Printf("read json error", err)
+			break
 		}
 		err = ws.WriteJSON(msg)
 		if err != nil {
-			log.Fatal("write json error", err)
+			log.Printf("write json error", err)
+			break
 		}
 	}
 
