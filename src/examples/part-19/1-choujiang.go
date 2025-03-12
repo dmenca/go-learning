@@ -3,8 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"math/rand"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Prize struct {
@@ -17,6 +18,7 @@ func initPrizes(str string) ([]Prize, error) {
 	var prizes []Prize
 
 	err := json.Unmarshal([]byte(str), &prizes)
+	log.Infof("prizes: %v", prizes)
 	if err != nil {
 		log.Println("invalid json prizes")
 		return nil, err
