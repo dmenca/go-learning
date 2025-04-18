@@ -1,0 +1,8 @@
+resources:
+- manager.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: controller
+  newName: 10.111.33.44:5000/centurio/centurio-component/backend/whale-gateway
+  newTag: test1

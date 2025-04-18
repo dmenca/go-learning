@@ -12,6 +12,8 @@ func main() {
 	for index := range languages {
 		fmt.Println("language: ", languages[index])
 	}
+	
+	
 
 	fmt.Println(languages)
 }
